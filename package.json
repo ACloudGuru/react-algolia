@@ -1,5 +1,5 @@
 {
-  "name": "react-algolia",
+  "name": "@a-cloud-guru/react-algolia",
   "version": "1.4.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -14,7 +14,8 @@
     "clean": "rm -rf ./dist ./node_modules",
     "prebuild": "yarn run clean && yarn",
     "build": "tsup",
-    "prepublishOnly": "rm -rf ./dist && yarn build"
+    "prepublishOnly": "rm -rf ./dist && yarn build",
+    "validate": "echo 'Please add validate step'"
   },
   "browserslist": {
     "production": [

@@ -1,0 +1,77 @@
+name: publish-npm
+on:
+  workflow_dispatch:
+
+  push:
+    paths:
+      - '**'
+      - .github/workflows/publish-npm.yml
+    branches:
+      - 'master'
+  pull_request:
+    paths:
+      - '**'
+      - .github/workflows/publish-npm.yml
+    branches:
+      - 'master'
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  validate-npm:
+    if: github.event_name == 'pull_request'
+    runs-on: self-hosted
+    container: acloudgurudevs/acg:16.13.2-alpine
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # organization secret
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # organization secret
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Mark git checkout as safe
+      run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: .tool-versions
+        cache: yarn
+        cache-dependency-path: yarn.lock
+
+    - name: install dependencies
+      run: |
+        echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
+        yarn config set unsafe-perm true
+        yarn install --frozen-lockfilec 
+
+    - name: Validate NPM
+      run: yarn validate
+  publish-npm:
+    if: github.event.ref == 'refs/heads/master'
+    runs-on: self-hosted
+    container: acloudgurudevs/acg:16.13.2-alpine
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # organization secret
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # organization secret
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        ref: master
+
+    - name: Mark git checkout as safe
+      run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+    - name: install dependencies
+      run: |
+        echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
+        yarn config set unsafe-perm true
+        yarn install --frozen-lockfilec 
+
+    - name: Publish to NPM
+      run: npm publish
