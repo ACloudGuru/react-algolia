@@ -22,10 +22,10 @@ defaults:
 jobs:
   validate-npm:
     if: github.event_name == 'pull_request'
-    runs-on: self-hosted
-    container: acloudgurudevs/acg:16.13.2-alpine
+    
+    runs-on: ubuntu-latest
+
     env:
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # organization secret
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # organization secret
 
     steps:
@@ -52,10 +52,10 @@ jobs:
       run: yarn validate
   publish-npm:
     if: github.event.ref == 'refs/heads/master'
-    runs-on: self-hosted
-    container: acloudgurudevs/acg:16.13.2-alpine
+    
+    runs-on: ubuntu-latest
+    
     env:
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # organization secret
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # organization secret
 
     steps:
