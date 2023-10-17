@@ -38,7 +38,7 @@ jobs:
 
     - uses: actions/setup-node@v3
       with:
-        node-version-file: .tool-versions
+        node-version-file: .node-version
         cache: yarn
         cache-dependency-path: yarn.lock
 
@@ -54,7 +54,7 @@ jobs:
     if: github.event.ref == 'refs/heads/master'
     
     runs-on: ubuntu-latest
-    
+
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # organization secret
 
