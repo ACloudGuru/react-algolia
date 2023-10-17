@@ -17,18 +17,6 @@
     "prepublishOnly": "rm -rf ./dist && yarn build",
     "validate": "echo 'Please add validate step'"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "bluebird": "^3.5.5",
     "react": "^16.9.0",
