@@ -9,7 +9,7 @@
   "author": "Kyle Ruan",
   "dependencies": {
     "algoliasearch": "^3.33.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "use-deep-compare-effect": "^1.3.0"
   },
   "scripts": {
